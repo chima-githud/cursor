@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Card Component</title>
+    <style>
+        /* CSS Variables for theme consistency */
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --primary-active: #004085;
+            --success-color: #28a745;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --border-color: #eee;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --border-radius: 8px;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --font-size-sm: 14px;
+            --font-size-md: 16px;
+            --font-size-lg: 18px;
+            --font-size-xl: 22px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: var(--spacing-lg);
+            background-color: #f8f9fa;
+            color: var(--text-primary);
+        }
+
+        /* Container for responsive grid */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Pricing card styles */
+        .pricing {
+            background-color: #fff;
+            box-shadow: var(--shadow-light);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Title styles */
+        .title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin: 0 0 var(--spacing-md) 0;
+            color: var(--text-primary);
+        }
+
+        /* Price styles */
+        .price {
+            font-size: var(--font-size-lg);
+            color: var(--success-color);
+            font-weight: 600;
+            margin: 0 0 var(--spacing-lg) 0;
+        }
+
+        /* Features list */
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 var(--spacing-lg) 0;
+            text-align: left;
+        }
+
+        .features li {
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            padding-left: var(--spacing-lg);
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+        }
+
+        .features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Checkmark icons for features */
+        .features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Button styles with proper states */
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Button states */
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            background: var(--primary-active);
+            transform: translateY(0);
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .btn:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Button loading state */
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive design - Mobile first approach */
+        
+        /* Small tablets and large phones */
+        @media (min-width: 576px) {
+            .pricing-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .pricing {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 768px) {
+            .pricing-container {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .pricing {
+                padding: 2rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .price {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 992px) {
+            .pricing-container {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                max-width: 1000px;
+            }
+        }
+
+        /* Large desktop */
+        @media (min-width: 1200px) {
+            .pricing-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .pricing {
+                border: 2px solid var(--text-primary);
+            }
+            
+            .btn {
+                border: 2px solid transparent;
+            }
+            
+            .btn:focus {
+                border-color: var(--text-primary);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .pricing:hover {
+                transform: none;
+            }
+            
+            .btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .pricing {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+            
+            .btn {
+                background: transparent;
+                color: #000;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pricing-container">
+        <div class="pricing" role="article" aria-labelledby="basic-plan-title">
+            <h2 class="title" id="basic-plan-title">Basic Plan</h2>
+            <p class="price" aria-label="Price: 9 dollars and 99 cents per month">$9.99 <span aria-hidden="true">/month</span></p>
+            
+            <ul class="features" role="list" aria-label="Plan features">
+                <li role="listitem">1 GB Storage</li>
+                <li role="listitem">Basic Support</li>
+                <li role="listitem">All Core Features</li>
+            </ul>
+            
+            <button class="btn" type="button" aria-describedby="basic-plan-title">
+                Start Trial
+            </button>
+        </div>
+
+        <!-- Additional pricing cards for demonstration -->
+        <div class="pricing" role="article" aria-labelledby="pro-plan-title">
+            <h2 class="title" id="pro-plan-title">Pro Plan</h2>
+            <p class="price" aria-label="Price: 19 dollars and 99 cents per month">$19.99 <span aria-hidden="true">/month</span></p>
+            
+            <ul class="features" role="list" aria-label="Plan features">
+                <li role="listitem">10 GB Storage</li>
+                <li role="listitem">Priority Support</li>
+                <li role="listitem">Advanced Features</li>
+                <li role="listitem">Analytics Dashboard</li>
+            </ul>
+            
+            <button class="btn" type="button" aria-describedby="pro-plan-title">
+                Start Trial
+            </button>
+        </div>
+
+        <div class="pricing" role="article" aria-labelledby="enterprise-plan-title">
+            <h2 class="title" id="enterprise-plan-title">Enterprise Plan</h2>
+            <p class="price" aria-label="Price: 49 dollars and 99 cents per month">$49.99 <span aria-hidden="true">/month</span></p>
+            
+            <ul class="features" role="list" aria-label="Plan features">
+                <li role="listitem">Unlimited Storage</li>
+                <li role="listitem">24/7 Dedicated Support</li>
+                <li role="listitem">Custom Integrations</li>
+                <li role="listitem">Advanced Security</li>
+                <li role="listitem">Team Management</li>
+            </ul>
+            
+            <button class="btn" type="button" aria-describedby="enterprise-plan-title">
+                Contact Sales
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Add keyboard navigation and interaction improvements
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn');
+            
+            buttons.forEach(button => {
+                // Add click handler
+                button.addEventListener('click', function() {
+                    // Simulate loading state
+                    const originalText = this.textContent;
+                    this.textContent = 'Loading...';
+                    this.disabled = true;
+                    
+                    // Reset after 2 seconds (for demo purposes)
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.disabled = false;
+                    }, 2000);
+                });
+                
+                // Add keyboard support
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
